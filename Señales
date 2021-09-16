@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<signal.h>
+#include<unistd.h>
+#include<time.h>
+
+void principal();
+void listener(int);
+int main(void)
+{
+	principal();
+	system("pause");
+	return 0;
+}
+
+void principal()
+{
+	int i;
+	for(i=1; i<=64; i++)//posible error en declaracion dentro de for
+	{
+		signal(i,listener);//i representa el numero de señal	
+	}
+	//aqui implementar getpid
+	printf("ID de proceso: %d\n",getpid());
+	while(1)
+	{	
+		printf("\nEsperando una señal\n");
+		sleep(1);
+	}
+}
+
+void listener(int señal)
+{
+	signal(señal,listener);
+	printf("\nLa señal recibida es: %d\n",señal);
+	switch(señal){
+		case 2:
+			exit(0);
+			break;
+		case 9:
+			exit(0);
+			break;
+		case 15:
+			exit(0);
+			break;
+	}
+}
+
