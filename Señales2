@@ -1,0 +1,133 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<signal.h>
+#include<unistd.h>
+#include<time.h>
+
+void principal();
+void listener(int);
+int main(void)
+{
+	principal();
+	system("pause");
+	return 0;
+}
+
+void principal()
+{
+	int i,j,a,b,c,d;
+	int **matrizA;
+	int **matrizB;
+	int **matrizC;
+	int **matrizR;
+	int dimension=10;
+	int add=0;
+	//inicialización
+	
+	for(i=1; i<=64; i++)//posible error en declaracion dentro de for
+	{
+		signal(i,listener);//i representa el numero de señal	
+	}
+	//aqui implementar getpid
+	printf("ID de proceso: %d\n",getpid());
+
+	while(1)
+	{	
+		//creación de matrices
+		matrizA=(int**)malloc(dimension*sizeof(int*));
+		for(i=0; i<dimension; i++)
+			matrizA[i]=(int*)malloc(dimension*sizeof(int));
+
+		for(i=0; i<dimension; i++)
+		{
+			for(j=0; j<dimension; j++)
+				matrizA[i][j]=rand()%150;
+		}
+		//llenado de matriz B
+		matrizB=(int**)malloc(dimension*sizeof(int*));
+		for(a=0; a<dimension; a++)
+			matrizB[a]=(int*)malloc(dimension*sizeof(int));
+
+		for(a=0; a<dimension; a++)
+		{
+			for(b=0; b<dimension; b++)
+				matrizB[a][b]=rand()%150;
+		}
+
+		matrizC=(int**)malloc(dimension*sizeof(int*));
+		for(c=0; c<dimension; c++)
+			matrizC[c]=(int*)malloc(dimension*sizeof(int));
+
+		for(c=0; c<dimension; c++)
+		{
+			for(d=0; d<dimension; d++)
+				matrizC[c][d]=rand()%150;
+		}
+		
+		matrizR=(int**)malloc(dimension*sizeof(int*));
+		for(c=0; c<dimension; c++)
+			matrizC[c]=(int*)malloc(dimension*sizeof(int));
+
+		for(c=0; c<dimension; c++)
+		{
+			for(d=0; d<dimension; d++)
+				matrizR[c][d]=rand()%150;
+		}
+			
+			//operación de multiplicacióm
+		
+		for(a=0; a<dimension; a++)//col
+		{
+			for(b=0; b<dimension; b++)//fil
+			{
+				for(c=0; c<dimension; c++)//col
+				{
+					add+=matrizA[b][c]*matrizB[c][a];
+				}
+			
+			matrizR[b][a] = add;
+			}
+		}
+		printf("\nEsperando una señal\n");
+		sleep(1);
+	}
+	
+}
+
+void listener(int señal)
+{
+	FILE* fichero;
+	signal(señal,listener);
+	printf("\nLa señal recibida es: %d\n",señal);
+	switch(señal){
+		case 2:
+			//poner aqui archivo
+			/*
+			int i=3;    
+    		char *texto = "Programa finalizado exitosamente";
+    		FILE* fichero;    
+    		fichero = fopen("Señales.txt", "wt");
+    		fprintf (fichero, "%sEscritas %d+1 lineas en fichero",texto, i);
+    		fclose(fichero);     
+			printf("Proceso completado");
+			*/
+
+			
+    		fichero = fopen("Señales.txt", "wt");
+    		fputs("Aprender a programar (linea 1)\n", fichero);
+    		fputs("requiere esfuerzo (linea 2)\n", fichero);
+    		fputs("y dedicacion (linea 3)", fichero);
+    		fclose(fichero);
+    		printf("Proceso completado");
+			
+			
+			break;
+		case 9:
+			exit(0);
+			break;
+		case 15:
+			exit(0);
+			break;
+	}
+}
+
