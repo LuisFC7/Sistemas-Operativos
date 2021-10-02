@@ -1,0 +1,18 @@
+#!/bin/bash
+echo Script 1
+#First we have to implement for to ask how many files wants
+echo -e 'Para buscar una extensión de archivo \nIntroducir *.extension, ejemplo "*.pdf"\n'
+echo '¿Cuantas extensiones de archivo desea buscar?: '
+read ifor
+CHECK=*.txt
+for((i=1; i<=ifor; i++))
+do
+	
+	echo -e 'Introduzca la extension a buscar: \n'
+	read extension
+	find ~ -name $extension -print | cpio -pmd Extension$i
+	#conditional for txt files
+	
+
+done
+#for read was done
