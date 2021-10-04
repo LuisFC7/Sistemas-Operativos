@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e 'Para buscar una extensión a buscar es necesario ingres \n*. antes de la extension \nEjemplo *.pdf *.txt'
 echo '¿Cuantas extensiones de archivo desea buscar?: '
 read veces
 CHECK=*.txt
@@ -18,7 +19,7 @@ do
 			mkdir TXT
 			find $prueba -name *.txt -exec cp {} ./TXT \;
 		else
-			echo ..
+			echo "Archivo no encontrado"
 		fi
 	else
 		mkdir Extension$i 
