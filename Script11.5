@@ -1,5 +1,5 @@
 #!/bin/bash
-echo -e 'Para buscar una extensión a buscar es necesario ingres \n*. antes de la extension \nEjemplo *.pdf *.txt'
+echo -e 'Para buscar una extensión a buscar es necesario ingres \n*. antes de la extension \nEjemplo *.pdf *.txt\n'
 echo '¿Cuantas extensiones de archivo desea buscar?: '
 read veces
 CHECK=*.txt
@@ -15,14 +15,17 @@ do
 		if grep -r -l -i "otro texto color azul" /home/luisfc/Escritorio/Analisis
 		then
 			prueba=$(grep -r -l -i "otro texto color azul" /home/luisfc/Escritorio/Analisis)
+			echo -e 'Archivos encontrados en: \n'
 			echo $prueba
 			mkdir TXT
 			find $prueba -name *.txt -exec cp {} ./TXT \;
+			rm -r Analisis
 		else
 			echo "Archivo no encontrado"
 		fi
 	else
 		mkdir Extension$i 
 		find ~ -name $extension -exec cp {} ./Extension$i \;
+		echo -e '\n'
 	fi
 done
