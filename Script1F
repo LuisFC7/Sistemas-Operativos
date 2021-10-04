@@ -1,0 +1,27 @@
+#!/bin/bash
+echo '¿Cuantas extensiones de archivo desea buscar?: '
+read veces
+CHECK=*.txt
+for((i=1; i<=veces; i++))
+do
+	echo -e 'Introduzca la extensión a buscar: \n'
+	read extension
+	if [[ "$extension" == "$CHECK" ]]; then
+		mkdir Analisis
+		find ~ -name $extension -exec cp {} ./Analisis \;	
+		#analizar cada archivo que contenga 4 palabras
+		echo -e '\n'
+		if grep -r -l -i "otro texto color azul" /home/luisfc/Escritorio/Analisis
+		then
+			prueba=$(grep -r -l -i "otro texto color azul" /home/luisfc/Escritorio/Analisis)
+			echo $prueba
+			mkdir TXT
+			find $prueba -name *.txt -exec cp {} ./TXT \;
+		else
+			echo ..
+		fi
+	else
+		mkdir Extension$i 
+		find ~ -name $extension -exec cp {} ./Extension$i \;
+	fi
+done
