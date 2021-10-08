@@ -1,0 +1,13 @@
+#!/bin/bash
+echo -e 'Detector de IP\n'
+IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+#echo -e 'Tu IP principal es:' $IP
+echo -e 'Tu IP principal es:' ${IP:0:15} '\n'
+echo -e 'Mascara de subred : 255.255.255.0'
+#-E = significa que los patrones seran reconocidos como expresion regular
+#-o = que solo imprimira exactamente las coincidencias
+#[] = el rango de caracteres 
+#inet(addr:) = hace referencia a las direcciones IP a buscar
+#* = apareciones de los caracteres
+#-v = invierte el sentido de coincidiencias (no coincidencias)"condicion"
+#ip 127.0.0.1 IP virtual
