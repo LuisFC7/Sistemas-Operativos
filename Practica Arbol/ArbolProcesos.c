@@ -41,12 +41,12 @@ void Arbolprocesos()
       case 0:
         if (cont==0) 
         {
-            printf("\nHijo  ID: %d, Padre ID: %d\n", getpid(),getppid());
+            printf("\nHijo ID: %d, Padre ID: %d\n", getpid(),getppid());
             Hijo1(niveles);
         }
         if (cont==1) 
         { 
-            printf("\nHijo  ID: %d, Padre ID: %d\n", getpid(),getppid());
+            printf("\nHijo ID: %d, Padre ID: %d\n", getpid(),getppid());
             Hijo2(niveles);
         }
         exit(0);
