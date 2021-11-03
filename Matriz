@@ -1,0 +1,133 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+
+void principal();
+void crear(int, int, int, int, int);
+void calculo(int**,int**,int,int,int,int);//matriz apuntadores y contador el ultimo
+//Numero de filas de A / Numero de procesos
+
+int main(void)
+{
+    principal();
+    return 0;
+}
+
+void principal()
+{
+    int np;
+    printf("\nIngrese el numero de procesos: ");
+    scanf("%d",&np);
+
+    int FA, CA, FB, CB;
+    printf("\nIngrese el número de Filas de Matriz A: ");
+    scanf("%d",&FA);
+    printf("\nIngrese el número de Columnas de Matriz A: ");
+    scanf("%d",&CA);
+    printf("\nIngrese el número de Filas de Matriz  B: ");
+    scanf("%d",&FB);
+    printf("\nIngrese el número de Columnas de Matriz B: ");
+    scanf("%d",&CB);
+
+    if(FA==CB && np<=FA)
+    {
+        //HACER MULTIPLICACION 
+        crear(FA,CA,FB,CB,np);
+    }
+    else
+    {
+        //nada
+    }
+}
+
+void crear(int FA, int CA, int FB, int CB,int pro)
+{
+    int **matA, **matB;
+    int contador=0;
+    matA=(int**)malloc(FA*sizeof(int*));
+    for(int i=0; i<CA; i++)
+        matA[i]=(int*)malloc(CA*sizeof(int));
+
+    for(int i=0; i<FA; i++)
+    {
+        for(int j=0; j<CA; j++)
+        {
+            matA[i][j]=rand()%4;
+        }
+    }
+
+    matB=(int**)malloc(FB*sizeof(int*));
+    for(int i=0; i<CA; i++)
+        matB[i]=(int*)malloc(CB*sizeof(int));
+
+    for(int i=0; i<FB; i++)
+    {
+        for(int j=0; j<CB; j++)
+        {
+            matB[i][j]=rand()%4;
+        }
+    }
+    
+    calculo(matA,matB, contador,FA,CB,pro);    
+}
+
+void calculo(int** matA, int** matB, int contador, int FA, int CB, int pro)
+{
+    int **matC;
+    int pid;
+    //MATA=2*2 MATB=2*2 // PROCESOS=2
+    pid=fork();
+
+    //reservar memoria para matriz C
+    matC=(int**)malloc(FA*sizeof(int*));
+    for(int i=0; i<CB; i++)
+        matC[i]=(int*)malloc(CB*sizeof(int));
+
+    for(int i=0; i<FA; i++)
+    {
+        for(int j=0; j<CB; j++)
+        {
+            matC[i][j]=0;
+        }
+    }
+
+    int op=FA/pro;
+    int cont2=op-FA;
+
+    //for(int i=0; i<FA; i++)
+    //{
+        pid=fork();
+        switch(pid)
+        {
+            case 0:
+                printf("Hijo ID:%d Padre ID: %d",getpid(),getppid());
+                //aqui hacer operacion de multiplicacion
+                for(int i=0; i<FA; i++)
+                {
+                    for(int j=0; j<CB; j++)
+                    {
+                        matC[i][j]=matA[i][j]*matB[i][j]+matC[i][j];
+                        matA[i][j]=matA[i][j+1];
+                        matB[i][j]=matB[i+1][j];
+                    }
+                }           
+                exit(0);
+
+            case 1:
+                printf("\nError al crear...\n");
+
+            default:
+                wait(NULL);
+        }
+    //}        
+    /*for(int i=0; i<FA; i++)
+    {
+        for(int j=0; j<CB; j++)
+        {
+            printf("%d",matC[i][j]);
+        }
+        printf("\n");
+    }*/
+}
