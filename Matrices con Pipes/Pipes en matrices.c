@@ -123,7 +123,7 @@ int main()
             Multiplicacion(matA,matB,matC,a,NCA,NCB,h,j,k,b);
             close(pipe1[0]);//canal de lectura cerrado
             write(pipe1[1], &matC, sizeof(matC));
-            printf("Parent(%d) \n", getpid());
+            printf("Hijo(%d) \n", getpid());
             close(pipe1[1]);
             break;
         }
@@ -131,12 +131,8 @@ int main()
         if(pid > 0){//padre
             printf("Padre ID:%d\n", getpid());
             close(pipe1[1]);
-
-            // now read the data (will block)
             read(pipe1[0], &matC, sizeof(matC));
-            printf("Child(%d) \n", getpid());
-
-            // close the read-descriptor
+            printf("Padre(%d) \n", getpid());
             close(pipe1[0]);
         }
 
@@ -175,8 +171,6 @@ void Multiplicacion(int **matA, int **matB, int **matC, int a, int NCA, int NCB,
             } 
 	    } 
     } 
-
-    //retornar(matC);//aqui se retorna la matriz c
 
     printf("\n\n Resultado :\n");  
     for(h=b; h<a+1; h++)
